@@ -1,1 +1,611 @@
+\documentclass[conference]{IEEEtran}
 
+% Language, Encoding, Fonts
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage[english]{babel}
+
+% Maths
+\usepackage{amsmath, amssymb}
+
+% Figures
+\usepackage{graphicx}
+\usepackage{float}
+\usepackage{booktabs}
+\usepackage{tcolorbox}
+
+% SQL code formatting (kept)
+\usepackage{listings}
+\usepackage{color}
+\definecolor{dkgreen}{rgb}{0,0.6,0}
+\definecolor{gray}{rgb}{0.5,0.5,0.5}
+\definecolor{mauve}{rgb}{0.58,0,0.82}
+\definecolor{customcolor}{rgb}{0.91, 0.91, 0.87}
+\lstset{
+  language=SQL,
+  basicstyle={\small\ttfamily},
+  breaklines=true,
+  commentstyle=\color{dkgreen},
+  keywordstyle=\color{blue},
+  numbers=left,
+  numberstyle=\tiny\color{gray}\ttfamily\bfseries,
+  showstringspaces=false,
+  stringstyle=\color{mauve},
+  backgroundcolor=\color{customcolor}
+}
+
+% Hyperlinks
+\usepackage[colorlinks=true, allcolors=blue]{hyperref}
+
+% Bibliography IEEE style
+\usepackage{cite}
+
+\begin{document}
+
+\title{ \normalsize 
+		\\ [5.0cm]
+		\normalsize  \\ [1.0cm]
+		\LARGE \textbf{Software Requirement Specification (SRS) \& Model Diagram}\\[0.5cm]
+ 		\normalsize \today \vspace*{10\baselineskip}}
+
+
+
+\author{
+        Prepared By: \\[0.5cm]
+        \textbf{Group 03}\\[0.2cm]
+		\textbf{2112471642, Souvik Pramanik}\\[0.2cm]
+        \textbf{2121462042, S.M. Riaz Rahman Antu}\\[0.2cm]
+        \textbf{2132727042, Md Ibrahim Khalil}\\[5.0cm]
+        \LARGE{Course Instructor: Dr. Mohammad Rezwanul Huq}       \\[0.5cm]
+		 \\
+		%Professor, Dept. of Computer Science \\
+        \texttt{}
+		 }
+
+\maketitle
+
+\clearpage
+\onecolumn
+\tableofcontents
+\listoffigures
+\clearpage
+\twocolumn 
+
+\begin{center}
+    {\LARGE \bfseries Class Schedule Management System}\\[6pt]
+\end{center}
+
+\begin{abstract}
+The Class Schedule Management System (CSMS) is a web-based tool designed to assist academic administrators in creating and managing semester-wise class schedules efficiently. It centralizes course, instructor, room, and timeslot information to ensure accurate scheduling with minimal manual effort. The system automatically detects conflicts such as instructor overlaps and room mismatches, helping prevent common scheduling errors. This Software Requirements Specification (SRS) document outlines the system’s objectives, functional requirements, constraints, and assumptions that guide its development to support a more organized and reliable scheduling process in educational institutions.
+\end{abstract}
+
+\section{Software Requirements Specifications (SRS)}
+\vspace{0.5em}
+\subsection{Introduction}
+
+\subsubsection{Purpose}
+The purpose of this Software Requirements Specification (SRS) document is to define and describe the functional and non-functional requirements of the Class Schedule Management System. The platform will be controlled by the administrator to ensure that class scheduling is properly maintained.
+
+\subsubsection{Scope}
+The Class Schedule Management System is intended for academic administrators who manage semester-wise class schedules. The system will allow:
+\begin{itemize}
+    \item Manage courses, sections, instructors, rooms, and time slot patterns.
+    \item Assign instructors and rooms to course sections.
+    \item Validate schedules for conflicts.
+    \item Ensure lab/theory room compatibility.
+    \item Search and view schedules by instructor, room, or timeslot.
+    \item Instructor course load limit:
+    minimum 3 courses (9 credits) and maximum 5 courses (15 credits).
+    \item Assign instructor office hClassroom:ours where no class can be scheduled.
+\end{itemize}
+
+\subsubsection{Definitions and Acronyms}
+\textbf{Definitions}
+\begin{itemize}
+    \item \textbf{Class Schedule Management System :}
+ A software system designed to create, manage, and maintain academic class schedules efficiently.
+    \item \textbf{Administrator:}
+ An authorized user responsible for managing courses, instructors, classrooms, time slots, and overall scheduling configuration.
+    \item \textbf{Instructor:}
+ A faculty member assigned to teach one or more courses and view assigned class schedules.
+    \item \textbf{Student:}
+ A registered user who can view class schedules relevant to their enrolled courses.
+    \item \textbf{Course:}
+ An academic subject offered by the institution with a defined syllabus and assigned instructional time.
+    \item  \textbf{Classroom:}
+ A physical or virtual space allocated for conducting class sessions.
+    \item \textbf{Theory Room:}
+ A classroom specifically designated for conducting theory-based courses.
+    \item \textbf{Lab Room:}
+ A classroom located in a laboratory building and equipped for practical or lab-based courses.
+    \item \textbf{Time Slot:}
+ A predefined time interval during which a class session can be scheduled.
+    \item \textbf{Timeslot Pattern:}
+ An encoded pattern defining a combination of class days and a specific time range (e.g., ST1).
+ \begin{enumerate}
+    \item   \textbf{ST (Sunday–Tuesday):}
+ A day grouping representing classes held on Sunday and Tuesday.
+    \item \textbf{MW (Monday–Wednesday):}
+ A day grouping representing classes held on Monday and Wednesday.
+    \item \textbf{RA (Thursday–Saturday):}
+ A day grouping representing classes held on Thursday and Saturday.
+    \item \textbf{ST1:}
+ A specific timeslot pattern representing the time range from 8:00 AM to 9:30 AM. It will have 10 minutes of break after each class and classes will end at 5.50 PM.
+ \end{enumerate}
+    \item \textbf{Schedule Conflict:}
+ Any scheduling violation such as overlapping time slots, classroom clashes, instructor overlaps, or mismatches between room type and course type.
+    \item \textbf{User Authentication:}
+ The process of verifying a user’s identity before granting access to the system.
+    \item \textbf{Database:}
+ A structured collection of data used to store, manage, and retrieve scheduling and user information.
+
+\end{itemize}
+\textbf{Acronyms and Abbreviations}
+    
+     
+\begin{itemize}
+    \item \textbf{CSMS:} Class Schedule Management System
+    \item \textbf{SRS:} Software Requirements Specification
+    \item \textbf{UI:} User Interface
+    \item \textbf{DBMS:} Database Management System
+    \item \textbf{ST:} Sunday–Tuesday
+    \item \textbf{MW:} Monday–Wednesday
+    \item \textbf{RA:} Thursday–Saturday
+\end{itemize}
+
+\subsubsection{Overview}
+The Class Schedule Management System is a software-based solution developed to automate and streamline the process of creating, managing, and maintaining academic class schedules within an educational institution. This document provides a comprehensive description of the overall system, including its architecture, workflow, and operational scope which is supported by relevant diagrams such as use case, data flow, and entity-relationship diagrams. It can clearly illustrate system interactions and data movement. It defines both functional requirements, such as course scheduling, instructor and classroom allocation, conflict detection, and schedule viewing, as well as non-functional requirements related to system performance, security, usability, and reliability. The document also describes the system’s data structures, database design, and user interfaces to ensure accurate data management and ease of use for administrators, faculty, and students. Aditionally, constraints in scheduling, such as classroom availability, instructor workload limits, and fixed time slots, as well as system assumptions about the accuracy of data and authorized access, are identified to ensure realistic and efficient schedule generation.
+
+\subsection{Overall Description}
+\subsubsection{Product Perspective}
+The Class Schedule Management System is a standalone web-based administrative tool used internally by academic departments. It replaces manual spreadsheet-based scheduling by enforcing rules, preventing conflicts, and organizing course-related resources. It visualizes the system very smartly and takes less time to organize the schedule. Instructor can view only their schedules by searching.\\
+\textbf{System Components}\\
+Some system components are included here for implementation.
+\begin{enumerate}
+    \item Course Management Module
+    \item Instructor Management Module
+    \item Timeslot Management Module
+    \item Classroom Management Module
+    \item Schedule Assignment Module
+    \item Conflict Detection Engine
+    \item Schedule Viewing \& Search Module
+    \item Office hour Management Module
+\end{enumerate}
+
+\subsubsection{Product Functions}
+The Class Schedule Management System provides academic administrators with a complete set of tools to manage courses, instructors, rooms, timeslots, and semester schedules. The system supports schedule creation, conflict detection, weekly timetable visualization, and office hour management. It ensures that all scheduling rules such as instructor availability, room type matching, and timeslot restrictions are strictly enforced.
+\begin{enumerate}
+    \item \textbf{Add, edit, delete courses, instructors, rooms, and sections}\\
+This function allows administrators to manage all essential academic entities. They can create new entries, update incorrect information, or remove outdated records.
+    \item \textbf{Assign or update class schedules}\\
+Administrators can select a course section, choose its instructor, timeslot, and room, then create a schedule entry. The system validates all constraints before confirming.
+    \item \textbf{View weekly timetable}\\
+The system provides a structured grid-based representation of the weekly schedule so admins can quickly verify availability and planning.
+    \item \textbf{Search schedules by instructor, room, or timeslot}\\
+Users can filter schedules to find when a specific instructor teaches, what classes take place in a given room, or which classes occur in a timeslot
+    \item \textbf{Review unresolved conflicts}\\
+Administrators can view all pending conflicts such as instructor clashes, room double-booking, or room-type mismatches. This allows them to resolve errors before publishing the final schedule.
+    \item \textbf{Search schedules of office hour}\\
+The system allows admins to view an instructor’s office hour blocks and verify that no classes are scheduled during those restricted periods.
+\end{enumerate}
+
+\subsubsection{User Characteristics}
+The Class Schedule Management System is intended to be used by multiple user groups with different roles and levels of technical expertise. The main user types are described below:
+
+\textbf{Administrators}
+\begin{itemize}
+    \item Academic and administrative personnel responsible for creating and managing schedules.
+    \item Moderate computer experience, though not necessarily technical experts.
+    \item Require full access to all system functionalities including course setup, instructor assignment, resource allocation, and conflict resolution.
+    \item Need a well-organized interface that supports efficient data entry and updates.
+\end{itemize}
+
+\textbf{Instructors}
+\begin{itemize}
+    \item Faculty members responsible for teaching courses.
+    \item Primarily use the system to view assigned schedules, room locations, and time slots.
+    \item May submit availability information or request schedule changes.
+    \item Require limited access with mostly read-only permissions.
+    \item Prefer a lightweight and easy-to-navigate interface.
+\end{itemize}
+
+\textbf{Students}
+\begin{itemize}
+    \item End-users who access the system to view course timetables and classroom information.
+    \item Diverse in background and digital literacy levels.
+    \item Expect a simple and responsive interface (both on web and mobile) with clear schedule presentation.
+    \item Read-only access with no privileges to modify data.
+\end{itemize}
+\subsubsection{Constraints}
+\begin{itemize}
+    \item A class = Course + Section + Timeslot + Instructor + Room
+    \item Lab courses must be placed in lab rooms
+    \item No instructor can teach two classes in the same timeslot
+    \item No room can host more than one class in the same timeslot
+    \item Timeslot patterns are fixed and predefined
+    \item A class repeats for both days in the pattern (e.g., ST = Sun \& Tue)
+\end{itemize}
+\subsubsection{Assumptions and Dependencies}
+
+The Class Schedule Management System operates under the following assumptions and relies on certain external conditions:
+
+\begin{enumerate}
+    \item All timeslot definitions, including day patterns and time ranges, will be finalized and provided before the scheduling process begins.
+    
+    \item The accuracy of the schedule depends on the correctness of the information entered for rooms, instructors, and course details; any future changes must be updated manually.
+    
+    \item The academic calendar remains fixed throughout the semester, with no unexpected changes to working days or class durations.
+    
+    \item Internet connectivity is consistently available for accessing the web-based system, especially in multi-user environments.
+    
+    \item Administrators using the system possess basic computer and data-entry skills to properly manage scheduling tasks.
+    
+    \item The institution maintains the necessary server and software infrastructure required for system operation and data storage.
+    
+    \item The availability of instructors and classrooms is confirmed before creating the schedule to avoid additional rescheduling efforts.
+\end{enumerate}
+
+\subsection{System Requirements}
+
+\subsubsection{Functional Requirements}Functional requirements describe the specific behavior, features, and operations that the system must provide. They define \emph{what} the system should do and specify the tasks, services, or functions it must perform to meet the user needs. In the context of the Class Schedule Management System, functional requirements include course management, instructor assignment, schedule creation, conflict detection, search and view functionalities, and data validation.
+
+\textbf{Course Management}
+\begin{itemize}
+    \item{FR-1} The system shall allow the administrator to add, edit, and delete courses.
+    \item{FR-2} Each course shall include the following fields: Course Code, Course Title, Type (Theory/Lab), Credit, and Department.
+    \item{FR-3} The system shall allow defining multiple sections for each course.
+\end{itemize}
+
+\textbf{Instructor Management}
+\begin{itemize}
+    \item{FR-4} The system shall allow adding, editing, and deleting instructor information.
+    \item{FR-5} The system shall allow assigning an instructor to one or more course sections.
+\end{itemize}
+
+\textbf{Room Management}
+\begin{itemize}
+    \item{FR-6} The system shall store Room Number, Capacity, and Room Type (Theory/Lab).
+    \item{FR-7} The system shall prevent lab courses from being assigned to theory rooms.
+\end{itemize}
+
+\textbf{Timeslot Management}
+\begin{itemize}
+    \item{FR-8} The system shall maintain a predefined list of timeslot codes (e.g., ST1, MW2, RA3).
+    \item{FR-9} Each timeslot shall have a defined day pattern and time range.
+\end{itemize}
+
+\textbf{Schedule Assignment}
+\begin{itemize}
+    \item{FR-10} The system shall allow administrators to assign a schedule entry consisting of Course + Section + Instructor + Timeslot + Room.
+    \item{FR-11} The system shall validate the assignment before saving.
+\end{itemize}
+
+\textbf{Conflict Detection}
+\begin{itemize}
+    \item{FR-12} The system shall detect and prevent the following conflicts:
+    \begin{itemize}
+        \item Instructor double-booking
+        \item Room double-booking
+        \item Room type mismatch
+        \item Duplicate class entries
+    \end{itemize}
+    \item{FR-13} The system shall display detailed error messages for detected conflicts.
+\end{itemize}
+
+\textbf{Search and View}
+\begin{itemize}
+    \item{FR-14} Administrators shall be able to view schedules by:
+    \begin{itemize}
+        \item Instructor
+        \item Room
+        \item Timeslot
+        \item Weekly timetable
+    \end{itemize}
+    \item{FR-15} The system shall support exporting and printing of timetables (optional).
+\end{itemize}
+
+\textbf{Data Validation}
+\begin{itemize}
+    \item{FR-16} Course type must match the room type for lab courses.
+    \item{FR-17} Empty or inconsistent fields shall trigger validation errors.
+\end{itemize}
+
+\subsubsection{Non-Functional Requirements}Non-functional requirements specify \emph{how} the system performs its functions. They define the quality attributes, constraints, and standards that the system must satisfy. Including the performance, reliability, usability, security, and maintainability. Non-functional requirements ensure that the system operates efficiently, securely, and reliably while providing a satisfactory user experience.
+
+\textbf{Performance}
+\begin{itemize}
+    \item{NFR-1} Schedule conflict checking shall occur in less than 2 seconds.
+    \item{NFR-2} The system shall support at least 300 schedule entries.
+\end{itemize}
+
+\textbf{Usability}
+\begin{itemize}
+    \item{NFR-3} The user interface shall be simple and intuitive for non-technical users.
+    \item{NFR-4} Alerts and warnings shall be clearly visible.
+\end{itemize}
+
+\textbf{Reliability}
+\begin{itemize}
+    \item{NFR-5} The system shall ensure that incorrect schedules cannot be saved.
+    \item{NFR-6} System uptime should be at least 95\%.
+\end{itemize}
+
+\textbf{Security}
+\begin{itemize}
+    \item{NFR-7} Only authorized administrator users can modify schedules.
+    \item{NFR-8} All updates shall be logged for audit purposes.
+\end{itemize}
+
+\textbf{Maintainability}
+\begin{itemize}
+    \item{NFR-9} The codebase shall follow a modular design to facilitate maintenance and updates.
+\end{itemize}
+
+\subsubsection{Data Requirements}
+
+\textbf{Core Data Entities}
+\begin{itemize}
+    \item \textbf{Course:} Code, Title, Type, Credit, Department
+    \item \textbf{Section:} Course Code, Section ID
+    \item \textbf{Instructor:} ID, Name, Department
+    \item \textbf{Room:} ID, Type, Capacity
+    \item \textbf{Timeslot:} Code, Days, Start Time, End Time
+    \item \textbf{Schedule Entry:} Course Section, Instructor, Timeslot, Room
+    \item \textbf{Office Hour:} Instructor
+\end{itemize}
+
+\subsubsection{Scheduling Constraint Rules}
+
+\textbf{Timeslot Rules}
+\begin{itemize}
+    \item Each timeslot code represents both the days and the time range.
+    \item \textbf{Example:} ST1 $\rightarrow$ Sunday–Tuesday, 08:00–09:30; MW2 $\rightarrow$ Monday–Wednesday, 09:40–11:10
+\end{itemize}
+
+\textbf{Conflict Rules}
+\begin{itemize}
+    \item \textbf{Instructor Conflict:} An instructor cannot teach two classes at the same timeslot.
+    \item \textbf{Room Conflict:} A room cannot host multiple classes at the same timeslot.
+    \item \textbf{Room-Type Conflict:} Lab courses must be scheduled only in lab rooms.
+    \item \textbf{Duplicate Entry Conflict:} The same course-section cannot be scheduled twice.
+    \item \textbf{Office Hour Conflict:} An instructor’s office hour cannot coincide with a scheduled class in the same room.
+\end{itemize}
+
+\subsection{External Interface Requirements}
+
+\subsubsection{User Interface (Conceptual)}
+The Class Schedule Management System shall provide a user-friendly interface that enables administrators, instructors, and students to interact efficiently with the system. The interface shall include the following components:
+
+\begin{itemize}
+    \item \textbf{Dashboard:} Provides a quick overview of courses, instructors, rooms, and schedule summaries.
+    \item \textbf{Course Management:} Pages for adding, editing, and deleting courses.
+    \item \textbf{Instructor Management:} Pages for adding, editing, and deleting instructor information.
+    \item \textbf{Room Management:} Pages for adding, editing, and managing room details.
+    \item \textbf{Schedule Assignment:} Page for assigning courses to instructors, rooms, and timeslots.
+    \item \textbf{Dropdown Selectors:} Facilitate easy selection of courses, instructors, rooms, and timeslots.
+    \item \textbf{Conflict Warnings Panel:} Displays any detected scheduling conflicts in real-time.
+    \item \textbf{Weekly Schedule View:} Grid-based visual representation of the complete weekly timetable.
+    \item \textbf{Search Functionality:} Allows users to search schedules by instructor, room, or timeslot.
+    \item \textbf{Conflict Highlighting:} Visually emphasizes conflicting entries to facilitate resolution.
+\end{itemize}
+
+\subsubsection{Hardware Interfaces}
+The system shall support standard hardware commonly available in academic environments:
+\begin{itemize}
+    \item Desktop or laptop computers with standard display capabilities.
+    \item Mouse and keyboard input devices.
+\end{itemize}
+
+\subsubsection{Software Interfaces}
+The system shall interact with the following software components:
+\begin{itemize}
+    \item Standard web browsers (e.g., Chrome, Firefox, Edge) for client access.
+    \item SQL-based database system for storing schedules, courses, instructors, and room information.
+\end{itemize}
+
+\subsubsection{Communication Interfaces}
+The system shall support the following communication protocols and network requirements:
+\begin{itemize}
+    \item HTTP/HTTPS-based client-server communication for all web interactions.
+    \item Internet or local area network (WLAN) connectivity to support multi-user access.
+\end{itemize}
+
+\subsection{Additional Assumptions}
+The following assumptions are made to ensure the effective operation of the Class Schedule Management System:
+
+\begin{itemize}
+    \item Academic departments will provide finalized course lists prior to the start of the scheduling process.
+    \item Instructor availability and preferences will be communicated to the system administrators in advance.
+    \item Administrative users possess basic computer literacy and are capable of navigating the system interface.
+    \item All classrooms, resources, and timeslot definitions are available and accurate at the time of scheduling.
+    \item The system will be used within a stable academic calendar, with minimal mid-semester changes.
+\end{itemize}
+
+\textbf{Conclusion: }
+This Software Requirements Specification (SRS) document defines the complete set of functional and non-functional requirements for the Class Schedule Management System. This document provides a foundation for subsequent phases of the software development lifecycle, including system modeling, detailed design, implementation, testing, and deployment, enabling the creation of an efficient, reliable, and user-friendly scheduling system which can easily maintain by the Admin. Instructors and Student can view the schedule only.
+
+\newpage
+\section{Modeling and Design Diagrams}
+\subsection{Use Case Diagram}
+\begin{figure}[htpb]
+    \centering
+    \includegraphics[width=0.70\textwidth, keepaspectratio]{img/uCD.png}
+    \caption{Use Case Diagram. (S.M. Riaz Rahman)}
+    \label{fig:UCD}
+\end{figure}
+\newpage\clearpage
+\subsection{Use Case Descriptions}
+\subsubsection{UC-01: Add Class}
+\textbf{Actor:} Administrator
+
+\textbf{Preconditions:} Admin is authenticated; Course and Section data are available or being created.
+
+\textbf{Main Flow:}
+\begin{enumerate}
+    \item Admin opens the ``Add Class'' page.
+    \item Admin selects a Course Code (or creates a new course).
+    \item Admin enters Section ID, Timeslot, Room, Instructor, and Course Type (Theory/Lab).
+    \item System validates all fields and timeslot patterns.
+    \item System saves the class entry and displays a confirmation.
+\end{enumerate}
+
+\textbf{Alternate Flows:}
+\begin{itemize}
+    \item{A1:} Missing mandatory field → System shows a validation error and blocks save.
+    \item{A2:} Room type mismatch (lab course in theory room) → System rejects entry and suggests a suitable room.
+\end{itemize}
+
+\textbf{Postconditions:} New schedule entry is created and visible in the timetable. Conflict detection flags any conflicts.
+
+\subsubsection{UC-02: Assign Instructor}
+\textbf{Actor:} Administrator
+
+\textbf{Preconditions:} Instructor exists in the database; course section exists.
+
+\textbf{Main Flow:}
+\begin{enumerate}
+    \item Admin navigates to the relevant section or schedule entry.
+    \item Admin selects an instructor for the section.
+    \item System checks instructor availability and office hours.
+    \item System saves the assignment (if no conflict) and updates the schedule.
+\end{enumerate}
+
+\textbf{Alternate Flows:}
+\begin{itemize}
+    \item{A1:} Instructor double-booked → System shows conflict details and prevents save.
+\end{itemize}
+
+\textbf{Postconditions:} Instructor is assigned to the section or the assignment is blocked due to a conflict.
+
+\subsubsection{UC-03: Assign Room}
+\textbf{Actor:} Administrator
+
+\textbf{Preconditions:} Rooms and timeslot definitions exist.
+
+\textbf{Main Flow:}
+\begin{enumerate}
+    \item Admin selects a schedule entry to assign to a room.
+    \item Admin chooses a room from a list (filterable by type/capacity).
+    \item System checks room availability and type match (lab/theory).
+    \item System assigns the room and reflects the change in the weekly timetable.
+\end{enumerate}
+
+\textbf{Alternate Flows:}
+\begin{itemize}
+    \item{A1:} Room double-booked → System displays conflict and suggests alternate rooms.
+\end{itemize}
+
+\textbf{Postconditions:} Room is assigned, or admin must select a different room.
+
+\subsubsection{UC-04: View Schedule}
+\textbf{Actor:} Administrator / Instructor / Student
+
+\textbf{Preconditions:} Schedule entries exist for the relevant term.
+
+\textbf{Main Flow:}
+\begin{enumerate}
+    \item User selects filter criteria (Instructor / Room / Timeslot / Weekly).
+    \item System retrieves matching schedule entries.
+    \item System displays the weekly grid view; conflicts are highlighted for administrators.
+\end{enumerate}
+
+\textbf{Alternate Flows:}
+\begin{itemize}
+    \item{A1:} No results → System shows a ``No classes found'' message and provides suggestions.
+\end{itemize}
+
+\textbf{Postconditions:} User views the requested timetable.
+
+\subsubsection{UC-05: Validate Schedule}
+\textbf{Actor:} Administrator (system-triggered)
+
+\textbf{Preconditions:} Schedule assignment operations have been performed.
+
+\textbf{Main Flow:}
+\begin{enumerate}
+    \item Admin triggers schedule validation or it runs automatically on save.
+    \item Conflict Detection Engine checks: instructor double-booking, room double-booking, room-type mismatch, duplicate entries, office-hour conflicts.
+    \item System lists conflicts with details (instructor, timeslot, room, suggested fixes).
+    \item Admin resolves conflicts (reassign instructor/room or change timeslot).
+\end{enumerate}
+
+\textbf{Alternate Flows:}
+\begin{itemize}
+    \item {A1:} Auto-suggested fix accepted → System applies changes and re-validates.
+\end{itemize}
+
+\textbf{Postconditions:} Schedule is validated and either saved as conflict-free or flagged for administrator attention.
+
+\vspace{2cm}
+\begin{tcolorbox}
+Figure~\ref{fig:UCD} is the "Use Case Diagram" of the software.\newline Figure~\ref{fig:sd1} and ~\ref{fig:sd2} is the two Sequence Diagrams. \newline Figure~\ref{fig:ad1} and ~\ref{fig:ad2} is the two mentioned Activity Diagrams.\newline The Class Diagram is in Figure~\ref{fig:cd}. \newline The High Level Architecture is present in Figure~\ref{fig:hlad}. \newline And the Figure~\ref{fig:efd} is the UI Wireframe Diagram.
+\end{tcolorbox}
+
+
+\newpage
+\subsection{Sequence Diagram}
+\begin{figure}[htpb]
+    \centering
+    \includegraphics[width=1.0\textwidth]{img/sd1.png}
+    \caption{Assign Class \& Validation. (Souvik Pramanik)}
+    \label{fig:sd1}
+\end{figure}
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=1.0\textwidth]{img/sd2.png}
+    \caption{Admin Edit. (Souvik Pramanik)}
+    \label{fig:sd2}
+\end{figure}
+\newpage\clearpage
+
+\subsection{Activity Diagram}
+\begin{figure}[htpb]
+    \centering
+    \includegraphics[width=1.0\textwidth, height =0.40\textheight]{img/ad1.png}
+    \caption{Create Schedule. (S.M. Riaz Rahman)}
+    \label{fig:ad1}
+\end{figure}
+
+\begin{figure}[htpb]
+    \centering
+    \includegraphics[width=1.0\textwidth, height =0.38\textheight]{img/ad2.png}
+    \caption{Validation.  (S.M. Riaz Rahman)}
+    \label{fig:ad2}
+\end{figure}
+
+\newpage\clearpage
+\subsection{Class Diagram}
+\begin{figure}[htpb]
+    \centering
+    \includegraphics[width=0.85\textwidth, height=\textheight,keepaspectratio]{img/cd.png}
+    \caption{Class Diagram. (Souvik Pramanik)}
+    \label{fig:cd}
+\end{figure}
+
+\newpage\clearpage
+\subsection{High-Level Architecture Diagram}
+\begin{figure}[htpb]
+    \centering
+    \includegraphics[width=\textwidth]{img/hlad.png}
+    \caption{High Level Architecture Diagram. (Ibrahim Khalil)}
+    \label{fig:hlad}
+\end{figure}
+
+\newpage\clearpage
+\subsection{UI Wireframe Diagram}
+\begin{figure}[htpb]
+    \centering
+    \includegraphics[width=0.9\textwidth, height=0.85\textheight]{img/Web_Photo_Editor.jpg}
+    \caption{UI Wireframe Diagram. (Ibrahim Khalil)}
+    \label{fig:efd}
+\end{figure}
+
+\newpage\clearpage
+
+% \section*{Acknowledgment (Optional)}
+% (Add if needed)
+
+% \bibliographystyle{IEEEtran}
+% \bibliography{references}
+
+\end{document}
