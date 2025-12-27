@@ -1,0 +1,1034 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CSMS - Class Schedule Management System</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        
+        body {
+            background-color: #f5f7fa;
+            color: #333;
+            line-height: 1.6;
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        
+        /* Header Styles */
+        header {
+            background: linear-gradient(135deg, #1e3c72 0%, #2a5298 100%);
+            color: white;
+            padding: 25px 0;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+            border-radius: 0 0 15px 15px;
+        }
+        
+        .header-content {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+        
+        .logo i {
+            font-size: 2.5rem;
+            color: #4fc3f7;
+        }
+        
+        .logo h1 {
+            font-size: 1.8rem;
+            font-weight: 700;
+        }
+        
+        .logo p {
+            font-size: 0.9rem;
+            opacity: 0.9;
+        }
+        
+        .user-info {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+        
+        .user-avatar {
+            width: 45px;
+            height: 45px;
+            border-radius: 50%;
+            background-color: #4fc3f7;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+            font-size: 1.2rem;
+        }
+        
+        /* Navigation */
+        nav {
+            background-color: white;
+            border-radius: 10px;
+            padding: 15px;
+            margin-top: 20px;
+            box-shadow: 0 3px 10px rgba(0, 0, 0, 0.08);
+        }
+        
+        .nav-links {
+            display: flex;
+            list-style: none;
+            gap: 25px;
+            flex-wrap: wrap;
+        }
+        
+        .nav-links li a {
+            text-decoration: none;
+            color: #2a5298;
+            font-weight: 600;
+            padding: 8px 15px;
+            border-radius: 6px;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        
+        .nav-links li a:hover, .nav-links li a.active {
+            background-color: #2a5298;
+            color: white;
+        }
+        
+        /* Dashboard Cards */
+        .dashboard-cards {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+            gap: 20px;
+            margin: 30px 0;
+        }
+        
+        .card {
+            background-color: white;
+            border-radius: 10px;
+            padding: 25px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            border-top: 4px solid #2a5298;
+        }
+        
+        .card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 16px rgba(0, 0, 0, 0.1);
+        }
+        
+        .card-icon {
+            font-size: 2.2rem;
+            color: #2a5298;
+            margin-bottom: 15px;
+        }
+        
+        .card h3 {
+            font-size: 1.3rem;
+            margin-bottom: 10px;
+            color: #1e3c72;
+        }
+        
+        .card p {
+            color: #666;
+            margin-bottom: 20px;
+            font-size: 0.95rem;
+        }
+        
+        .card-btn {
+            display: inline-block;
+            background-color: #2a5298;
+            color: white;
+            padding: 8px 18px;
+            border-radius: 6px;
+            text-decoration: none;
+            font-weight: 600;
+            font-size: 0.9rem;
+            transition: background-color 0.3s ease;
+        }
+        
+        .card-btn:hover {
+            background-color: #1e3c72;
+        }
+        
+        /* Section Styles */
+        .section-container {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(500px, 1fr));
+            gap: 25px;
+            margin: 30px 0;
+        }
+        
+        .section {
+            background-color: white;
+            border-radius: 10px;
+            padding: 25px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+        }
+        
+        .section-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 25px;
+            padding-bottom: 15px;
+            border-bottom: 1px solid #eee;
+        }
+        
+        .section-header h2 {
+            color: #1e3c72;
+            font-size: 1.5rem;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        
+        /* Schedule Grid */
+        .schedule-grid {
+            display: grid;
+            grid-template-columns: repeat(8, 1fr);
+            gap: 1px;
+            background-color: #e0e0e0;
+            border: 1px solid #e0e0e0;
+            border-radius: 8px;
+            overflow: hidden;
+            max-height: 500px;
+            overflow-y: auto;
+        }
+        
+        .grid-header {
+            background-color: #2a5298;
+            color: white;
+            padding: 15px 10px;
+            text-align: center;
+            font-weight: 600;
+            position: sticky;
+            top: 0;
+            z-index: 10;
+        }
+        
+        .grid-cell {
+            background-color: white;
+            padding: 15px 10px;
+            min-height: 80px;
+            font-size: 0.9rem;
+        }
+        
+        .class-entry {
+            background-color: #e3f2fd;
+            border-left: 4px solid #2196f3;
+            padding: 10px;
+            margin-bottom: 8px;
+            border-radius: 4px;
+            font-size: 0.85rem;
+        }
+        
+        /* Form Styles */
+        .form-group {
+            margin-bottom: 20px;
+        }
+        
+        .form-group label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 600;
+            color: #1e3c72;
+        }
+        
+        .form-control {
+            width: 100%;
+            padding: 12px 15px;
+            border: 1px solid #ddd;
+            border-radius: 6px;
+            font-size: 1rem;
+            transition: border-color 0.3s ease;
+        }
+        
+        .form-control:focus {
+            outline: none;
+            border-color: #2a5298;
+            box-shadow: 0 0 0 3px rgba(42, 82, 152, 0.1);
+        }
+        
+        .form-row {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 15px;
+        }
+        
+        .btn-group {
+            display: flex;
+            gap: 15px;
+            margin-top: 25px;
+        }
+        
+        .btn {
+            padding: 12px 25px;
+            border-radius: 6px;
+            border: none;
+            font-weight: 600;
+            cursor: pointer;
+            font-size: 1rem;
+            transition: all 0.3s ease;
+        }
+        
+        .btn-primary {
+            background-color: #2a5298;
+            color: white;
+        }
+        
+        .btn-primary:hover {
+            background-color: #1e3c72;
+        }
+        
+        .btn-secondary {
+            background-color: #f0f0f0;
+            color: #333;
+        }
+        
+        .btn-secondary:hover {
+            background-color: #e0e0e0;
+        }
+        
+        /* Conflict Warning Styles */
+        .conflict-list {
+            margin-top: 20px;
+        }
+        
+        .conflict-item {
+            background-color: #ffebee;
+            border-left: 4px solid #f44336;
+            padding: 15px;
+            margin-bottom: 15px;
+            border-radius: 0 6px 6px 0;
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+        }
+        
+        .conflict-details {
+            flex: 1;
+        }
+        
+        .conflict-type {
+            display: inline-block;
+            background-color: #f44336;
+            color: white;
+            padding: 3px 10px;
+            border-radius: 20px;
+            font-size: 0.8rem;
+            font-weight: 600;
+            margin-bottom: 8px;
+        }
+        
+        .conflict-actions {
+            display: flex;
+            gap: 10px;
+        }
+        
+        .btn-small {
+            padding: 6px 12px;
+            font-size: 0.85rem;
+            border-radius: 4px;
+            border: none;
+            cursor: pointer;
+        }
+        
+        .btn-resolve {
+            background-color: #4caf50;
+            color: white;
+        }
+        
+        .btn-ignore {
+            background-color: #ff9800;
+            color: white;
+        }
+        
+        /* Status Indicators */
+        .status-badge {
+            display: inline-block;
+            padding: 4px 10px;
+            border-radius: 20px;
+            font-size: 0.8rem;
+            font-weight: 600;
+            margin-left: 10px;
+        }
+        
+        .status-active {
+            background-color: #e8f5e9;
+            color: #2e7d32;
+        }
+        
+        .status-warning {
+            background-color: #fff3e0;
+            color: #ef6c00;
+        }
+        
+        .status-error {
+            background-color: #ffebee;
+            color: #c62828;
+        }
+        
+        /* Testimonials */
+        .testimonials {
+            background-color: white;
+            border-radius: 10px;
+            padding: 25px;
+            margin: 30px 0;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+        }
+        
+        .testimonial-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 25px;
+            margin-top: 20px;
+        }
+        
+        .testimonial {
+            border-left: 4px solid #4fc3f7;
+            padding: 20px;
+            background-color: #f8fdff;
+            border-radius: 0 8px 8px 0;
+        }
+        
+        .testimonial p {
+            margin-bottom: 15px;
+            font-style: italic;
+            color: #555;
+        }
+        
+        .rating {
+            color: #ffb300;
+            font-size: 1.1rem;
+            margin-bottom: 10px;
+        }
+        
+        /* Footer */
+        footer {
+            background-color: #1e3c72;
+            color: white;
+            padding: 40px 0 20px;
+            margin-top: 40px;
+            border-radius: 15px 15px 0 0;
+        }
+        
+        .footer-content {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 30px;
+            margin-bottom: 30px;
+        }
+        
+        .footer-column h3 {
+            font-size: 1.2rem;
+            margin-bottom: 20px;
+            color: #4fc3f7;
+        }
+        
+        .footer-column ul {
+            list-style: none;
+        }
+        
+        .footer-column ul li {
+            margin-bottom: 10px;
+        }
+        
+        .footer-column ul li a {
+            color: #ddd;
+            text-decoration: none;
+            transition: color 0.3s ease;
+        }
+        
+        .footer-column ul li a:hover {
+            color: #4fc3f7;
+        }
+        
+        .social-icons {
+            display: flex;
+            gap: 15px;
+            margin-top: 20px;
+        }
+        
+        .social-icons a {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            width: 40px;
+            height: 40px;
+            background-color: rgba(255, 255, 255, 0.1);
+            border-radius: 50%;
+            color: white;
+            text-decoration: none;
+            transition: background-color 0.3s ease;
+        }
+        
+        .social-icons a:hover {
+            background-color: #4fc3f7;
+        }
+        
+        .copyright {
+            text-align: center;
+            padding-top: 20px;
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+            color: #aaa;
+            font-size: 0.9rem;
+        }
+        
+        /* Responsive */
+        @media (max-width: 1100px) {
+            .section-container {
+                grid-template-columns: 1fr;
+            }
+        }
+        
+        @media (max-width: 768px) {
+            .header-content {
+                flex-direction: column;
+                text-align: center;
+                gap: 20px;
+            }
+            
+            .nav-links {
+                justify-content: center;
+            }
+            
+            .schedule-grid {
+                grid-template-columns: repeat(5, 1fr);
+                overflow-x: auto;
+            }
+            
+            .grid-cell {
+                min-width: 120px;
+            }
+            
+            .form-row {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Header -->
+    <header>
+        <div class="container header-content">
+            <div class="logo">
+                <i class="fas fa-calendar-alt"></i>
+                <div>
+                    <h1>Class Schedule Management System</h1>
+                    <p>North South University - CS Department</p>
+                </div>
+            </div>
+            <div class="user-info">
+                <div>
+                    <p>Welcome, <strong>Admin</strong></p>
+                    <p>Last login: Today, 10:30 AM</p>
+                </div>
+                <div class="user-avatar">AP</div>
+            </div>
+        </div>
+    </header>
+
+    <div class="container">
+        <!-- Navigation -->
+        <nav>
+            <ul class="nav-links">
+                <li><a href="#" class="active"><i class="fas fa-home"></i> Dashboard</a></li>
+                <li><a href="#"><i class="fas fa-book"></i> Courses</a></li>
+                <li><a href="#"><i class="fas fa-chalkboard-teacher"></i> Instructors</a></li>
+                <li><a href="#"><i class="fas fa-door-open"></i> Rooms</a></li>
+                <li><a href="#"><i class="fas fa-clock"></i> Timeslots</a></li>
+                <li><a href="#"><i class="fas fa-calendar-check"></i> Schedule</a></li>
+                <li><a href="#"><i class="fas fa-exclamation-triangle"></i> Conflicts</a></li>
+                <li><a href="#"><i class="fas fa-cog"></i> Settings</a></li>
+            </ul>
+        </nav>
+
+        <!-- Dashboard Cards -->
+        <div class="dashboard-cards">
+            <div class="card">
+                <div class="card-icon">
+                    <i class="fas fa-book-open"></i>
+                </div>
+                <h3>Course Management</h3>
+                <p>Add, edit, or delete courses and sections. Manage course details like type, credits, and department.</p>
+                <a href="index.html" class="card-btn">Manage Courses</a>
+            </div>
+            
+            <div class="card">
+                <div class="card-icon">
+                    <i class="fas fa-users"></i>
+                </div>
+                <h3>Instructor Management</h3>
+                <p>Manage instructor information, assign courses, and set office hours. Check instructor availability.</p>
+                <a href="#" class="card-btn">Manage Instructors</a>
+            </div>
+            
+            <div class="card">
+                <div class="card-icon">
+                    <i class="fas fa-building"></i>
+                </div>
+                <h3>Room Management</h3>
+                <p>Add classrooms, specify type (Theory/Lab) and capacity. Ensure proper room-course matching.</p>
+                <a href="#" class="card-btn">Manage Rooms</a>
+            </div>
+            
+            <div class="card">
+                <div class="card-icon">
+                    <i class="fas fa-calendar-plus"></i>
+                </div>
+                <h3>Schedule Assignment</h3>
+                <p>Assign courses to instructors, rooms, and timeslots. Validate assignments for conflicts.</p>
+                <a href="#" class="card-btn">Create Schedule</a>
+            </div>
+        </div>
+
+        <!-- Main Sections: Add Class and Conflict Warning -->
+        <div class="section-container">
+            <!-- Add Class Section -->
+            <div class="section">
+                <div class="section-header">
+                    <h2><i class="fas fa-plus-circle"></i> Add New Class</h2>
+                    <span class="status-badge status-active">Active Form</span>
+                </div>
+                
+                <form id="addClassForm">
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="courseCode">Course Code <span style="color:red">*</span></label>
+                            <select class="form-control" id="courseCode" required>
+                                <option value="">Select Course</option>
+                                <option value="CSE101">CSE 101 - Introduction to Programming</option>
+                                <option value="CSE201">CSE 201 - Data Structures</option>
+                                <option value="CSE301">CSE 301 - Algorithms</option>
+                                <option value="CSE401">CSE 401 - Database Systems</option>
+                                <option value="CSE405">CSE 405 - Software Engineering</option>
+                            </select>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="sectionId">Section ID <span style="color:red">*</span></label>
+                            <input type="text" class="form-control" id="sectionId" placeholder="e.g., 1, 2, 3..." required>
+                        </div>
+                    </div>
+                    
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="instructor">Instructor <span style="color:red">*</span></label>
+                            <select class="form-control" id="instructor" required>
+                                <option value="">Select Instructor</option>
+                                <option value="DR001">Dr. Mohammad Rezwanul Huq</option>
+                                <option value="DR002">Dr. S.M. Riaz Rahman Antu</option>
+                                <option value="DR003">Dr. Md Ibrahim Khalil</option>
+                                <option value="DR004">Dr. Souvik Pramanik</option>
+                            </select>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="room">Classroom <span style="color:red">*</span></label>
+                            <select class="form-control" id="room" required>
+                                <option value="">Select Room</option>
+                                <optgroup label="Theory Rooms">
+                                    <option value="NAC702">NAC 702 (Capacity: 60)</option>
+                                    <option value="NAC805">NAC 805 (Capacity: 45)</option>
+                                    <option value="NAC901">NAC 901 (Capacity: 80)</option>
+                                </optgroup>
+                                <optgroup label="Lab Rooms">
+                                    <option value="LAB405">LAB 405 (Capacity: 30)</option>
+                                    <option value="LAB506">LAB 506 (Capacity: 25)</option>
+                                    <option value="LAB607">LAB 607 (Capacity: 40)</option>
+                                </optgroup>
+                            </select>
+                        </div>
+                    </div>
+                    
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="timeslot">Timeslot Pattern <span style="color:red">*</span></label>
+                            <select class="form-control" id="timeslot" required>
+                                <option value="">Select Timeslot</option>
+                                <option value="ST1">ST1 (Sun, Tue | 8:00 AM - 9:30 AM)</option>
+                                <option value="ST2">ST2 (Sun, Tue | 9:40 AM - 11:10 AM)</option>
+                                <option value="MW1">MW1 (Mon, Wed | 8:00 AM - 9:30 AM)</option>
+                                <option value="MW2">MW2 (Mon, Wed | 9:40 AM - 11:10 AM)</option>
+                                <option value="RA1">RA1 (Thu, Sat | 8:00 AM - 9:30 AM)</option>
+                                <option value="RA2">RA2 (Thu, Sat | 9:40 AM - 11:10 AM)</option>
+                            </select>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="courseType">Course Type <span style="color:red">*</span></label>
+                            <select class="form-control" id="courseType" required>
+                                <option value="">Select Type</option>
+                                <option value="theory">Theory</option>
+                                <option value="lab">Lab</option>
+                            </select>
+                        </div>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="notes">Additional Notes</label>
+                        <textarea class="form-control" id="notes" rows="3" placeholder="Any special instructions or notes..."></textarea>
+                    </div>
+                    
+                    <div class="btn-group">
+                        <button type="submit" class="btn btn-primary">
+                            <i class="fas fa-save"></i> Save Class Schedule
+                        </button>
+                        <button type="button" class="btn btn-secondary" onclick="resetForm()">
+                            <i class="fas fa-redo"></i> Reset Form
+                        </button>
+                        <button type="button" class="btn btn-secondary" onclick="validateSchedule()">
+                            <i class="fas fa-check-circle"></i> Validate
+                        </button>
+                    </div>
+                </form>
+            </div>
+            
+            <!-- Conflict Warning Section -->
+            <div class="section">
+                <div class="section-header">
+                    <h2><i class="fas fa-exclamation-triangle"></i> Conflict Warnings</h2>
+                    <span class="status-badge status-warning">3 Unresolved</span>
+                </div>
+                
+                <p>Detected scheduling conflicts that need attention before finalizing the schedule.</p>
+                
+                <div class="conflict-list">
+                    <!-- Conflict 1 -->
+                    <div class="conflict-item">
+                        <div class="conflict-details">
+                            <span class="conflict-type">Instructor Double-Booking</span>
+                            <p><strong>Dr. Mohammad Rezwanul Huq</strong> is already assigned to <strong>CSE 301 (Section 2)</strong> during <strong>MW1 (Mon, Wed | 8:00 AM - 9:30 AM)</strong>.</p>
+                            <p><i class="fas fa-calendar-alt"></i> Conflict with: <strong>CSE 401 (Section 1)</strong> in <strong>NAC 805</strong></p>
+                        </div>
+                        <div class="conflict-actions">
+                            <button class="btn-small btn-resolve" onclick="resolveConflict(1)">
+                                <i class="fas fa-check"></i> Resolve
+                            </button>
+                            <button class="btn-small btn-ignore" onclick="ignoreConflict(1)">
+                                <i class="fas fa-times"></i> Ignore
+                            </button>
+                        </div>
+                    </div>
+                    
+                    <!-- Conflict 2 -->
+                    <div class="conflict-item">
+                        <div class="conflict-details">
+                            <span class="conflict-type">Room Double-Booking</span>
+                            <p><strong>LAB 405</strong> is already booked for <strong>CSE 201 Lab (Section 3)</strong> during <strong>ST2 (Sun, Tue | 9:40 AM - 11:10 AM)</strong>.</p>
+                            <p><i class="fas fa-map-marker-alt"></i> Conflict with: <strong>CSE 405 Lab (Section 1)</strong> taught by <strong>Dr. Souvik Pramanik</strong></p>
+                        </div>
+                        <div class="conflict-actions">
+                            <button class="btn-small btn-resolve" onclick="resolveConflict(2)">
+                                <i class="fas fa-check"></i> Resolve
+                            </button>
+                            <button class="btn-small btn-ignore" onclick="ignoreConflict(2)">
+                                <i class="fas fa-times"></i> Ignore
+                            </button>
+                        </div>
+                    </div>
+                    
+                    <!-- Conflict 3 -->
+                    <div class="conflict-item">
+                        <div class="conflict-details">
+                            <span class="conflict-type">Room Type Mismatch</span>
+                            <p><strong>CSE 201 Lab (Section 2)</strong> is a <strong>Lab</strong> course but assigned to <strong>NAC 702</strong> which is a <strong>Theory</strong> room.</p>
+                            <p><i class="fas fa-exclamation-circle"></i> Suggested fix: Move to <strong>LAB 506</strong> or change to a theory course section.</p>
+                        </div>
+                        <div class="conflict-actions">
+                            <button class="btn-small btn-resolve" onclick="resolveConflict(3)">
+                                <i class="fas fa-check"></i> Resolve
+                            </button>
+                            <button class="btn-small btn-ignore" onclick="ignoreConflict(3)">
+                                <i class="fas fa-times"></i> Ignore
+                            </button>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="btn-group" style="margin-top: 20px;">
+                    <button class="btn btn-primary" onclick="validateAllConflicts()">
+                        <i class="fas fa-sync-alt"></i> Re-validate All
+                    </button>
+                    <button class="btn btn-secondary" onclick="viewAllConflicts()">
+                        <i class="fas fa-list"></i> View All Conflicts
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Weekly Schedule -->
+        <div class="section">
+            <div class="section-header">
+                <h2><i class="fas fa-calendar-week"></i> Weekly Schedule View</h2>
+                <div>
+                    <select class="form-control" style="width: auto; display: inline-block;">
+                        <option>Spring 2024</option>
+                        <option>Fall 2023</option>
+                        <option>Summer 2023</option>
+                    </select>
+                </div>
+            </div>
+            
+            <div class="schedule-grid">
+                <div class="grid-header">Time</div>
+                <div class="grid-header">Sunday</div>
+                <div class="grid-header">Monday</div>
+                <div class="grid-header">Tuesday</div>
+                <div class="grid-header">Wednesday</div>
+                <div class="grid-header">Thursday</div>
+                <div class="grid-header">Friday</div>
+                <div class="grid-header">Saturday</div>
+                
+                <div class="grid-cell">8:00 - 9:30</div>
+                <div class="grid-cell">
+                    <div class="class-entry">
+                        <strong>CSE 101</strong> (Sec 1)<br>
+                        Room: NAC 702<br>
+                        Dr. Huq
+                    </div>
+                </div>
+                <div class="grid-cell"></div>
+                <div class="grid-cell">
+                    <div class="class-entry">
+                        <strong>CSE 101</strong> (Sec 1)<br>
+                        Room: NAC 702<br>
+                        Dr. Huq
+                    </div>
+                </div>
+                <div class="grid-cell"></div>
+                <div class="grid-cell"></div>
+                <div class="grid-cell"></div>
+                <div class="grid-cell"></div>
+                
+                <div class="grid-cell">9:40 - 11:10</div>
+                <div class="grid-cell"></div>
+                <div class="grid-cell">
+                    <div class="class-entry">
+                        <strong>CSE 201 Lab</strong> (Sec 3)<br>
+                        Room: LAB 405<br>
+                        Dr. Rahman
+                    </div>
+                </div>
+                <div class="grid-cell"></div>
+                <div class="grid-cell">
+                    <div class="class-entry">
+                        <strong>CSE 201 Lab</strong> (Sec 3)<br>
+                        Room: LAB 405<br>
+                        Dr. Rahman
+                    </div>
+                </div>
+                <div class="grid-cell"></div>
+                <div class="grid-cell"></div>
+                <div class="grid-cell"></div>
+                
+                <div class="grid-cell">11:20 - 12:50</div>
+                <div class="grid-cell"></div>
+                <div class="grid-cell"></div>
+                <div class="grid-cell"></div>
+                <div class="grid-cell"></div>
+                <div class="grid-cell">
+                    <div class="class-entry">
+                        <strong>CSE 301</strong> (Sec 2)<br>
+                        Room: NAC 805<br>
+                        Dr. Antu
+                    </div>
+                </div>
+                <div class="grid-cell"></div>
+                <div class="grid-cell">
+                    <div class="class-entry">
+                        <strong>CSE 301</strong> (Sec 2)<br>
+                        Room: NAC 805<br>
+                        Dr. Antu
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Testimonials Section -->
+        <div class="testimonials">
+            <h2><i class="fas fa-comment-alt"></i> What Our Users Say</h2>
+            <div class="testimonial-grid">
+                <div class="testimonial">
+                    <div class="rating">
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                    </div>
+                    <p>"The Class Schedule Management System has revolutionized how we organize our academic timetables. Conflict detection saves hours of manual work."</p>
+                    <p><strong>Dr. Mohammad Rezwanul Huq</strong><br>Course Instructor</p>
+                </div>
+                
+                <div class="testimonial">
+                    <div class="rating">
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star-half-alt"></i>
+                    </div>
+                    <p>"As an administrator, I find the system intuitive and efficient. The weekly grid view makes it easy to spot scheduling issues quickly."</p>
+                    <p><strong>Souvik Pramanik</strong><br>System Administrator</p>
+                </div>
+                
+                <div class="testimonial">
+                    <div class="rating">
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                    </div>
+                    <p>"The ability to view my schedule from any device is fantastic. The mobile-responsive design works perfectly on my tablet and phone."</p>
+                    <p><strong>Md Ibrahim Khalil</strong><br>Faculty Member</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <footer>
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-column">
+                    <h3>CSMS</h3>
+                    <p>Class Schedule Management System is a web-based tool designed to assist academic administrators in creating and managing semester-wise class schedules efficiently.</p>
+                    <div class="social-icons">
+                        <a href="#"><i class="fab fa-twitter"></i></a>
+                        <a href="#"><i class="fab fa-facebook-f"></i></a>
+                        <a href="#"><i class="fab fa-linkedin-in"></i></a>
+                        <a href="#"><i class="fab fa-github"></i></a>
+                    </div>
+                </div>
+                
+                <div class="footer-column">
+                    <h3>Quick Links</h3>
+                    <ul>
+                        <li><a href="#">Dashboard</a></li>
+                        <li><a href="#">Course Management</a></li>
+                        <li><a href="#">Instructor Management</a></li>
+                        <li><a href="#">Schedule Assignment</a></li>
+                        <li><a href="#">Conflict Detection</a></li>
+                    </ul>
+                </div>
+                
+                <div class="footer-column">
+                    <h3>Resources</h3>
+                    <ul>
+                        <li><a href="#">User Guide</a></li>
+                        <li><a href="#">API Documentation</a></li>
+                        <li><a href="#">SRS Document</a></li>
+                        <li><a href="#">System Architecture</a></li>
+                        <li><a href="#">Release Notes</a></li>
+                    </ul>
+                </div>
+                
+                <div class="footer-column">
+                    <h3>Contact</h3>
+                    <ul>
+                        <li><i class="fas fa-map-marker-alt"></i> Department of CSE, North South University</li>
+                        <li><i class="fas fa-envelope"></i> csms-support@northsouth.edu</li>
+                        <li><i class="fas fa-phone"></i> +880 2 55668200</li>
+                    </ul>
+                </div>
+            </div>
+            
+            <div class="copyright">
+                <p>&copy; 2024 Class Schedule Management System. Developed by Souvik Pramanik, S.M. Riaz Rahman Antu, Md Ibrahim Khalil. All rights reserved.</p>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        // Form reset function
+        function resetForm() {
+            document.getElementById('addClassForm').reset();
+            alert('Form has been reset.');
+        }
+        
+        // Form submission handler
+        document.getElementById('addClassForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            alert('Class schedule saved successfully! The system will now validate for conflicts.');
+            // In a real application, this would submit to a server
+        });
+        
+        // Conflict resolution functions
+        function resolveConflict(conflictId) {
+            const conflictElement = document.querySelector(`.conflict-item:nth-child(${conflictId})`);
+            conflictElement.style.opacity = '0.6';
+            conflictElement.style.backgroundColor = '#e8f5e9';
+            conflictElement.querySelector('.conflict-type').textContent = 'Resolved';
+            conflictElement.querySelector('.conflict-type').style.backgroundColor = '#4caf50';
+            
+            setTimeout(() => {
+                conflictElement.style.display = 'none';
+                updateConflictCount();
+            }, 500);
+            
+            alert(`Conflict #${conflictId} has been resolved.`);
+        }
+        
+        function ignoreConflict(conflictId) {
+            const conflictElement = document.querySelector(`.conflict-item:nth-child(${conflictId})`);
+            conflictElement.style.opacity = '0.5';
+            conflictElement.querySelector('.conflict-type').textContent = 'Ignored';
+            conflictElement.querySelector('.conflict-type').style.backgroundColor = '#9e9e9e';
+            
+            alert(`Conflict #${conflictId} has been ignored (will be marked for review).`);
+        }
+        
+        function validateAllConflicts() {
+            alert('Re-validating all schedules for conflicts...');
+            // In a real application, this would trigger a server-side validation
+        }
+        
+        function viewAllConflicts() {
+            alert('Opening all conflicts page...');
+            // In a real application, this would navigate to a conflicts page
+        }
+        
+        function validateSchedule() {
+            alert('Validating schedule for conflicts... This would check for instructor overlaps, room double-booking, and room type mismatches.');
+            // In a real application, this would trigger validation logic
+        }
+        
+        function updateConflictCount() {
+            const conflicts = document.querySelectorAll('.conflict-item:not([style*="display: none"])');
+            const badge = document.querySelector('.status-badge.status-warning');
+            if (badge) {
+                badge.textContent = conflicts.length + ' Unresolved';
+                if (conflicts.length === 0) {
+                    badge.textContent = 'All Resolved';
+                    badge.className = 'status-badge status-active';
+                }
+            }
+        }
+        
+        // Initialize
+        document.addEventListener('DOMContentLoaded', function() {
+            console.log('CSMS Dashboard loaded successfully.');
+        });
+    </script>
+</body>
+</html>

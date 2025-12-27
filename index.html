@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Class Schedule Management System - Pro</title>
+
+    <!-- External CSS (from try.html) -->
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<header>
+    <h1>Class Schedule Management System</h1>
+    <p>Admin Control Panel</p>
+</header>
+
+<div class="container">
+    <div id="alertBox"></div>
+
+    <div class="card">
+        <h2>Add New Schedule Entry</h2>
+        <form id="scheduleForm" class="grid-form">
+            <div class="form-group">
+                <label>Course</label>
+                <select id="course" required>
+                    <option value="CSE110-Theory">CSE110 (Theory)</option>
+                    <option value="CSE211-Lab">CSE211 (Lab)</option>
+                    <option value="MAT120-Theory">MAT120 (Theory)</option>
+                    <option value="ENG101-Theory">ENG101 (Theory)</option>
+                </select>
+            </div>
+
+            <div class="form-group">
+                <label>Section</label>
+                <input type="number" id="section" required>
+            </div>
+
+            <div class="form-group">
+                <label>Instructor</label>
+                <select id="instructor" required>
+                    <option value="Prof. Rahim">Prof. Rahim</option>
+                    <option value="Dr. Smith">Dr. Smith</option>
+                    <option value="Ms. Aisha">Ms. Aisha</option>
+                </select>
+            </div>
+
+            <div class="form-group">
+                <label>Timeslot</label>
+                <select id="timeslot" required>
+                    <option value="ST 08:00-09:30">ST 08:00 - 09:30</option>
+                    <option value="MW 08:00-09:30">MW 08:00 - 09:30</option>
+                    <option value="RA 11:20-12:50">RA 11:20 - 12:50</option>
+                </select>
+            </div>
+
+            <div class="form-group">
+                <label>Room</label>
+                <select id="room" required>
+                    <option value="LIB601-Theory">LIB601 (Theory)</option>
+                    <option value="LAB202-Lab">LAB202 (Lab)</option>
+                    <option value="NAC502-Theory">NAC502 (Theory)</option>
+                </select>
+            </div>
+
+            <button type="submit" class="btn btn-save">Add Entry</button>
+        </form>
+    </div>
+
+    <div class="card">
+        <h2>Weekly Timetable View</h2>
+
+        <div class="search-box">
+            <input type="text" id="searchInput" placeholder="Search..." onkeyup="filterTable()">
+        </div>
+
+        <table>
+            <thead>
+                <tr>
+                    <th>Course</th>
+                    <th>Section</th>
+                    <th>Instructor</th>
+                    <th>Timeslot</th>
+                    <th>Room</th>
+                    <th>Status</th>
+                    <th>Action</th>
+                </tr>
+            </thead>
+            <tbody id="tableBody"></tbody>
+        </table>
+
+        <div id="emptyMsg" class="no-data">No schedules assigned yet.</div>
+    </div>
+</div>
+
+<!-- External JS -->
+<script src="script.js"></script>
+</body>
+</html>
