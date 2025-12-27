@@ -1,0 +1,62 @@
+{
+  "courses": [
+    {
+      "course_id": "CSE101",
+      "course_title": "Introduction to Programming",
+      "sections": [
+        {
+          "section": "A",
+          "instructor": "Dr. Mohammad Rezwanul Huq",
+          "timeslot": "MW 08:00 - 09:30",
+          "room": "SAC101",
+          "action": "DELETE"
+        },
+        {
+          "section": "B",
+          "instructor": "Prof. Rezwanul Huq",
+          "timeslot": "ST 09:40 - 11:10",
+          "room": "NAC105",
+          "action": "DELETE"
+        }
+      ]
+    },
+    {
+      "course_id": "CSE101L",
+      "course_title": "Programming Lab",
+      "sections": [
+        {
+          "section": "A",
+          "instructor": "Dr. Prof. Huq",
+          "timeslot": "RA 08:00 - 11:00",
+          "room": "LIB203",
+          "action": "DELETE"
+        }
+      ]
+    },
+    {
+      "course_id": "ENG101",
+      "course_title": "English Literature",
+      "sections": [
+        {
+          "section": "A",
+          "instructor": "Prof. Rezwanul",
+          "timeslot": "MW 10:00 - 11:30",
+          "room": "SAC202",
+          "action": "DELETE"
+        }
+      ]
+    }
+  ],
+  "instructors": [
+    { "name": "Dr. Mohammad Rezwanul Huq", "assigned_courses": ["CSE101"] },
+    { "name": "Prof. Rezwanul Huq", "assigned_courses": ["CSE101"] },
+    { "name": "Dr. Prof. Huq", "assigned_courses": ["CSE101L"] },
+    { "name": "Prof. Rezwanul", "assigned_courses": ["ENG101"] }
+  ],
+  "rooms": [
+    { "room_number": "SAC101", "type": "Theory", "capacity": 60 },
+    { "room_number": "NAC105", "type": "Theory", "capacity": 45 },
+    { "room_number": "LIB203", "type": "Lab", "capacity": 30 },
+    { "room_number": "SAC202", "type": "Theory", "capacity": 50 }
+  ]
+}

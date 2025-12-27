@@ -1,75 +1,67 @@
-const form = document.getElementById('scheduleForm');
-const tableBody = document.getElementById('tableBody');
-const alertBox = document.getElementById('alertBox');
-const emptyMsg = document.getElementById('emptyMsg');
+document.addEventListener('DOMContentLoaded', function () {
+    // Initialize course data
+    loadCourses();
 
-let scheduleData = [];
+    const courseForm = document.getElementById('courseForm');
+    courseForm.addEventListener('submit', function (e) {
+        e.preventDefault();
 
-form.addEventListener('submit', function (e) {
-    e.preventDefault();
+        const courseData = {
+            course_title: document.getElementById('courseTitle').value,
+            section: document.getElementById('section').value,
+            instructor: document.getElementById('instructor').value,
+            timeslot: document.getElementById('timeslot').value,
+            room: document.getElementById('room').value,
+        };
 
-    const entry = {
-        id: Date.now(),
-        course: course.value,
-        section: section.value,
-        instructor: instructor.value,
-        timeslot: timeslot.value,
-        room: room.value
-    };
-
-    let conflictMsg = "";
-
-    if (entry.course.includes("Lab") && !entry.room.includes("Lab")) {
-        conflictMsg = "⚠ Lab course must be in Lab room!";
-    }
-
-    scheduleData.forEach(item => {
-        if (item.timeslot === entry.timeslot) {
-            if (item.instructor === entry.instructor)
-                conflictMsg = "⚠ Instructor already booked!";
-            if (item.room === entry.room)
-                conflictMsg = "⚠ Room already booked!";
-        }
+        // POST request to add course
+        fetch('/api/courses', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify(courseData),
+        })
+        .then(response => response.json())
+        .then(data => {
+            console.log('Course added:', data);
+            loadCourses(); // Reload the courses after adding
+        })
+        .catch(error => console.error('Error adding course:', error));
     });
-
-    if (conflictMsg) {
-        alertBox.innerText = conflictMsg;
-        alertBox.style.display = "block";
-        return;
-    }
-
-    alertBox.style.display = "none";
-    scheduleData.push(entry);
-    renderTable();
-    form.reset();
 });
 
-function renderTable() {
-    tableBody.innerHTML = "";
-    emptyMsg.style.display = scheduleData.length ? "none" : "block";
-
-    scheduleData.forEach(item => {
-        tableBody.innerHTML += `
-        <tr>
-            <td>${item.course}</td>
-            <td>${item.section}</td>
-            <td>${item.instructor}</td>
-            <td>${item.timeslot}</td>
-            <td>${item.room}</td>
-            <td><span class="status">Validated</span></td>
-            <td><button class="btn btn-danger" onclick="deleteEntry(${item.id})">Delete</button></td>
-        </tr>`;
-    });
+// Load all courses
+function loadCourses() {
+    fetch('/api/courses')
+        .then(response => response.json())
+        .then(courses => {
+            const tableBody = document.getElementById('courseTable').getElementsByTagName('tbody')[0];
+            tableBody.innerHTML = ''; // Clear current table
+            courses.forEach(course => {
+                const row = document.createElement('tr');
+                row.innerHTML = `
+                    <td>${course.course_title}</td>
+                    <td>${course.section}</td>
+                    <td>${course.instructor}</td>
+                    <td>${course.timeslot}</td>
+                    <td>${course.room}</td>
+                    <td><button onclick="deleteCourse('${course._id}')">Delete</button></td>
+                `;
+                tableBody.appendChild(row);
+            });
+        })
+        .catch(error => console.error('Error loading courses:', error));
 }
 
-function deleteEntry(id) {
-    scheduleData = scheduleData.filter(item => item.id !== id);
-    renderTable();
-}
-
-function filterTable() {
-    const input = searchInput.value.toUpperCase();
-    Array.from(tableBody.rows).forEach(row => {
-        row.style.display = row.textContent.toUpperCase().includes(input) ? "" : "none";
-    });
+// Delete course
+function deleteCourse(courseId) {
+    fetch(`/api/courses/${courseId}`, {
+        method: 'DELETE',
+    })
+    .then(response => response.json())
+    .then(() => {
+        loadCourses(); // Reload courses after deletion
+    })
+    .catch(error => console.error('Error deleting course:', error));
 }

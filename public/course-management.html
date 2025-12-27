@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Course Management</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <header>
+        <h1>Manage Courses</h1>
+    </header>
+
+    <div class="container">
+        <!-- Add new course -->
+        <div class="card">
+            <h2>Add New Course</h2>
+            <form id="courseForm">
+                <div class="form-group">
+                    <label for="courseTitle">Course Title:</label>
+                    <input type="text" id="courseTitle" required>
+                </div>
+
+                <div class="form-group">
+                    <label for="section">Section:</label>
+                    <input type="text" id="section" required>
+                </div>
+
+                <div class="form-group">
+                    <label for="instructor">Instructor:</label>
+                    <input type="text" id="instructor" required>
+                </div>
+
+                <div class="form-group">
+                    <label for="timeslot">Timeslot:</label>
+                    <input type="text" id="timeslot" required>
+                </div>
+
+                <div class="form-group">
+                    <label for="room">Room:</label>
+                    <input type="text" id="room" required>
+                </div>
+
+                <button type="submit" class="btn btn-save">Add Course</button>
+            </form>
+        </div>
+
+        <!-- List of courses -->
+        <div class="card">
+            <h2>Course List</h2>
+            <table id="courseTable">
+                <thead>
+                    <tr>
+                        <th>Course Title</th>
+                        <th>Section</th>
+                        <th>Instructor</th>
+                        <th>Timeslot</th>
+                        <th>Room</th>
+                        <th>Action</th>
+                    </tr>
+                </thead>
+                <tbody></tbody>
+            </table>
+        </div>
+    </div>
+
+    <footer>
+        <p>&copy; 2025 Class Schedule Management System</p>
+    </footer>
+
+    <script src="script.js"></script>
+</body>
+</html>
